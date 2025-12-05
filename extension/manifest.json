@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Agent S3 Controller",
+  "version": "1.0.0",
+  "description": "Contrôlez votre ordinateur avec Agent S3 via une interface minimaliste",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*"
+  ],
+  "action": {
+    "default_title": "Ouvrir Agent S3 Controller"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

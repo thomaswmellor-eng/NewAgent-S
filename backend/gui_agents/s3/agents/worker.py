@@ -1,4 +1,5 @@
 from functools import partial
+import json
 import logging
 import textwrap
 from typing import Dict, List, Tuple
@@ -19,6 +20,68 @@ from gui_agents.s3.utils.formatters import (
 )
 
 logger = logging.getLogger("desktopenv.agent")
+
+# Task Planner System Prompt - translates natural prompts to precise instructions
+TASK_PLANNER_PROMPT = """You are a Task Translator for Agent S3. Your role is to convert natural, potentially imprecise user requests into clear, precise instructions that Agent S3 can execute by controlling the computer.
+
+Agent S3 can:
+- Control mouse/keyboard
+- Navigate web browsers
+- Take screenshots and analyze UI
+- Open applications
+- Perform multi-step workflows
+- Execute system commands
+
+Guidelines:
+- Make the instruction SPECIFIC and ACTIONABLE
+- Break down complex workflows into clear steps
+- Mention UI elements by their common names (buttons, menus, text fields)
+- Include waiting/scrolling instructions for dynamic content
+- Support multiple languages (English, French, etc.) - translate to English instructions
+- If the task is ambiguous, infer reasonable intent or provide a clear next step
+
+Examples (Web Navigation):
+
+User: "could you on github.com"
+Translated: "Navigate to github.com in the default web browser"
+
+User: "go to google and search for python tutorials"
+Translated: "Open the default web browser, navigate to google.com, enter 'python tutorials' in the search box, and press Enter"
+
+User: "ouvre youtube" (French)
+Translated: "Open the default web browser and navigate to youtube.com"
+
+Examples (Multi-step Tasks):
+
+User: "search GitHub for automation projects"
+Translated: "Navigate to github.com, use the search bar to search for 'automation', and review the repository results sorted by stars or relevance"
+
+User: "find and open the calculator app"
+Translated: "Open the system search or start menu, type 'calculator', and launch the Calculator application"
+
+User: "take a screenshot and save it"
+Translated: "Capture a screenshot of the current screen and save it to the default screenshots folder or desktop"
+
+Examples (Application Control):
+
+User: "open notepad and write hello world"
+Translated: "Launch Notepad application, wait for it to open, then type 'Hello World' in the text editor"
+
+User: "find files named report in Documents"
+Translated: "Open File Explorer, navigate to the Documents folder, and search for files containing 'report' in their name"
+
+Examples (French):
+
+User: "cherche des emplois python"
+Translated: "Search for 'Python developer jobs' using the search functionality on the current page or open a job search website like indeed.com or linkedin.com/jobs"
+
+User: "ouvre github"
+Translated: "Open the default web browser and navigate to github.com"
+
+User: "prends un screenshot"
+Translated: "Capture a screenshot of the current screen"
+
+Output ONLY the translated instruction, nothing else."""
 
 
 class Worker(BaseModule):
@@ -57,6 +120,9 @@ class Worker(BaseModule):
         self.max_trajectory_length = max_trajectory_length
         self.enable_reflection = enable_reflection
 
+        # Create task planner agent for translating natural prompts
+        self.task_planner = None  # Will be initialized in reset()
+
         self.reset()
 
     def reset(self):
@@ -79,6 +145,8 @@ class Worker(BaseModule):
         self.reflection_agent = self._create_agent(
             PROCEDURAL_MEMORY.REFLECTION_ON_TRAJECTORY
         )
+        # Initialize task planner agent (lightweight, no need for images)
+        self.task_planner = self._create_agent(TASK_PLANNER_PROMPT)
 
         self.turn_count = 0
         self.worker_history = []
@@ -176,13 +244,54 @@ class Worker(BaseModule):
                 logger.info("REFLECTION: %s", reflection)
         return reflection, reflection_thoughts
 
+    def _translate_instruction(self, user_instruction: str) -> str:
+        """
+        Translate natural/imprecise user instruction into precise, actionable instruction
+
+        Args:
+            user_instruction: The user's natural language instruction (potentially vague)
+
+        Returns:
+            Translated precise instruction for Agent S3
+        """
+        # Only translate on the first turn (turn_count == 0)
+        # After that, use the original instruction as context is already established
+        if self.turn_count > 0:
+            return user_instruction
+
+        try:
+            logger.info(f"📝 Original instruction: {user_instruction}")
+
+            # Add user instruction to task planner agent
+            self.task_planner.add_message(
+                text_content=user_instruction,
+                role="user"
+            )
+
+            # Call task planner to translate
+            translated = call_llm_safe(
+                self.task_planner,
+                temperature=0.3,  # Lower temperature for more precise translation
+                use_thinking=False,
+            )
+
+            logger.info(f"✨ Translated instruction: {translated}")
+            return translated
+
+        except Exception as e:
+            logger.warning(f"⚠️ Task translation failed, using original: {e}")
+            return user_instruction
+
     def generate_next_action(self, instruction: str, obs: Dict) -> Tuple[Dict, List]:
         """
         Predict the next action(s) based on the current observation.
         """
 
+        # TASK PLANNER: Translate natural prompt to precise instruction (only on first turn)
+        translated_instruction = self._translate_instruction(instruction)
+
         self.grounding_agent.assign_screenshot(obs)
-        self.grounding_agent.set_task_instruction(instruction)
+        self.grounding_agent.set_task_instruction(translated_instruction)
 
         generator_message = (
             ""
@@ -190,15 +299,15 @@ class Worker(BaseModule):
             else "The initial screen is provided. No action has been taken yet."
         )
 
-        # Load the task into the system prompt
+        # Load the task into the system prompt (use translated instruction)
         if self.turn_count == 0:
             prompt_with_instructions = self.generator_agent.system_prompt.replace(
-                "TASK_DESCRIPTION", instruction
+                "TASK_DESCRIPTION", translated_instruction
             )
             self.generator_agent.add_system_prompt(prompt_with_instructions)
 
-        # Get the per-step reflection
-        reflection, reflection_thoughts = self._generate_reflection(instruction, obs)
+        # Get the per-step reflection (use translated instruction)
+        reflection, reflection_thoughts = self._generate_reflection(translated_instruction, obs)
         if reflection:
             generator_message += f"REFLECTION: You may use this reflection on the previous action and overall trajectory:\n{reflection}\n"
 

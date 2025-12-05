@@ -1,0 +1,41 @@
+# FastAPI et serveur
+fastapi==0.123.5
+uvicorn[standard]==0.38.0
+starlette==0.50.0
+websockets==15.0.1
+
+# Variables d'environnement
+python-dotenv==1.2.1
+
+# IA et LLM
+anthropic==0.75.0
+openai==2.8.1
+tiktoken==0.12.0
+
+# Automation et screenshots
+pyautogui==0.9.54
+pillow==11.3.0
+pywin32==311
+
+# HTTP client
+httpx==0.28.1
+aiohttp==3.13.2
+
+# Data et utilities
+pydantic==2.12.5
+numpy==2.3.5
+pandas==2.3.3
+
+# OCR et vision (si utilisé)
+opencv-contrib-python==4.10.0.84
+pytesseract==0.3.13
+
+# Autres dépendances nécessaires
+certifi==2025.11.12
+charset-normalizer==3.4.4
+idna==3.11
+requests==2.32.5
+urllib3==2.5.0
+typing_extensions==4.15.0
+click==8.3.1
+colorlog==6.10.1

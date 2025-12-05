@@ -1,0 +1,483 @@
+/* Agent S3 Extension - shadcn/ui inspired design */
+
+/* CSS Variables (shadcn/ui style) */
+:root {
+    --background: 0 0% 0%; /* Black background */
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 217 91% 60%; /* Blue */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 217 91% 60%;
+    --radius: 0.5rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    width: 100%;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+/* Header - shadcn/ui card style */
+.header {
+    padding: 16px;
+    background: hsl(var(--card));
+    border-bottom: 1px solid hsl(var(--border));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    color: hsl(var(--card-foreground));
+    letter-spacing: -0.025em;
+}
+
+/* Status Badge - shadcn/ui badge style */
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: calc(var(--radius) - 2px);
+    background: hsl(var(--secondary));
+    font-size: 12px;
+    font-weight: 500;
+    color: hsl(var(--secondary-foreground));
+    transition: all 0.2s;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: hsl(142 76% 36%); /* Green */
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.status.error .status-dot {
+    background: hsl(0 62.8% 50.6%); /* Red */
+}
+
+.status.connecting .status-dot {
+    background: hsl(48 96% 53%); /* Yellow */
+}
+
+.status.disconnected .status-dot {
+    background: hsl(var(--muted-foreground));
+}
+
+/* Chat Container - Scrollable area */
+.chat-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Scrollbar styling */
+.chat-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.4);
+}
+
+/* Messages - shadcn/ui card style with variants */
+.message {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-content {
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 95%;
+    word-wrap: break-word;
+}
+
+/* User message - Primary style */
+.message.user .message-content {
+    align-self: flex-end;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    font-weight: 500;
+}
+
+/* Agent message - Card style */
+.message.agent .message-content {
+    align-self: flex-start;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--card-foreground));
+}
+
+/* System message - Muted style */
+.message.system .message-content {
+    align-self: flex-start;
+    background: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+    font-size: 12px;
+}
+
+/* Thinking message - Accent style */
+.message.thinking .message-content {
+    align-self: flex-start;
+    background: hsl(var(--accent));
+    border: 1px solid hsl(var(--border));
+    color: hsl(48 96% 80%); /* Light yellow */
+    font-style: italic;
+    font-size: 12px;
+}
+
+/* Action message - Secondary with accent border */
+.message.action .message-content {
+    align-self: flex-start;
+    background: hsl(var(--secondary));
+    border: 1px solid hsl(217 91% 60% / 0.5);
+    color: hsl(217 91% 80%);
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 12px;
+}
+
+/* Error message - Destructive style */
+.message.error .message-content {
+    align-self: flex-start;
+    background: hsl(var(--destructive) / 0.15);
+    border: 1px solid hsl(var(--destructive));
+    color: hsl(0 62.8% 70%);
+    font-size: 12px;
+}
+
+/* Success message - Success style */
+.message.success .message-content {
+    align-self: flex-start;
+    background: hsl(142 76% 36% / 0.15);
+    border: 1px solid hsl(142 76% 36%);
+    color: hsl(142 76% 70%);
+    font-size: 12px;
+}
+
+/* Input Container - shadcn/ui input group */
+.input-container {
+    padding: 16px;
+    background: hsl(var(--background));
+    border-top: 1px solid hsl(var(--border));
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+/* Textarea - shadcn/ui input style */
+.prompt-input {
+    flex: 1;
+    background: hsl(var(--background));
+    border: 1px solid hsl(var(--input));
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    color: hsl(var(--foreground));
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    max-height: 120px;
+    transition: all 0.15s;
+    outline: none;
+}
+
+.prompt-input:focus {
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+}
+
+.prompt-input::placeholder {
+    color: hsl(var(--muted-foreground));
+}
+
+/* Button - shadcn/ui button primary */
+.send-button {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    background: hsl(var(--primary));
+    border: none;
+    color: hsl(var(--primary-foreground));
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+
+.send-button:hover {
+    background: hsl(217 91% 50%);
+}
+
+.send-button:active {
+    transform: scale(0.95);
+}
+
+.send-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Stop Button - destructive style */
+.stop-button {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    background: hsl(var(--destructive));
+    border: none;
+    color: hsl(var(--destructive-foreground));
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.stop-button:hover {
+    background: hsl(0 62.8% 40%);
+}
+
+.stop-button:active {
+    transform: scale(0.95);
+}
+
+.stop-button.hidden {
+    display: none;
+}
+
+/* Settings Toggle - shadcn/ui button ghost */
+.settings-toggle {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    background: transparent;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    z-index: 10;
+}
+
+.settings-toggle:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    border-color: hsl(var(--accent-foreground) / 0.2);
+}
+
+/* Settings Panel - shadcn/ui dialog style */
+.settings-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: hsl(var(--background));
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+}
+
+.settings-panel.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(100%);
+}
+
+.settings-header {
+    padding: 16px;
+    border-bottom: 1px solid hsl(var(--border));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+}
+
+/* Close button - shadcn/ui button ghost */
+.close-button {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    background: transparent;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    font-size: 20px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+}
+
+.close-button:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+}
+
+.settings-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Setting items - shadcn/ui form field style */
+.setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-item label {
+    font-size: 14px;
+    font-weight: 500;
+    color: hsl(var(--foreground));
+}
+
+.setting-item input[type="text"] {
+    background: hsl(var(--background));
+    border: 1px solid hsl(var(--input));
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    color: hsl(var(--foreground));
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    transition: all 0.15s;
+    outline: none;
+}
+
+.setting-item input[type="text"]:focus {
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+}
+
+/* Checkbox - shadcn/ui checkbox style */
+.setting-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    accent-color: hsl(var(--primary));
+}
+
+/* Save button - shadcn/ui button default */
+.save-button {
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    background: hsl(var(--primary));
+    border: none;
+    color: hsl(var(--primary-foreground));
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-button:hover {
+    background: hsl(217 91% 50%);
+}
+
+.save-button:active {
+    transform: scale(0.98);
+}
+
+/* Loading animation - shadcn/ui spinner */
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid hsl(var(--muted));
+    border-top-color: hsl(var(--primary));
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

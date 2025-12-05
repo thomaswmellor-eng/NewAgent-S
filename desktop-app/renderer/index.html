@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flemme</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">Flemme</h1>
+            <div class="status" id="status">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecté</span>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container" id="chatContainer">
+            <!-- Messages apparaîtront ici -->
+            <div class="message system">
+                <div class="message-content">
+                    Flemme prêt! Utilisez Ctrl+Shift+A pour afficher/masquer la fenêtre.
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Container -->
+        <div class="input-container">
+            <textarea
+                id="promptInput"
+                class="prompt-input"
+                placeholder="Entrez votre commande..."
+                rows="1"
+            ></textarea>
+            <button id="sendButton" class="send-button" title="Envoyer">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M2 10L18 2L11 18L9 11L2 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button id="stopButton" class="stop-button hidden" title="Arrêter">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <rect x="4" y="4" width="8" height="8" rx="1"/>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

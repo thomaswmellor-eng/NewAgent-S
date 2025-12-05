@@ -1,0 +1,40 @@
+# Environment variables - NE JAMAIS COMMIT!
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.venv312/
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Certificates (si vous en avez)
+*.pfx
+*.p12
+*.pem
+*.key

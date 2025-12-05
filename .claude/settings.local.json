@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(..venv312Scriptspython.exe -m pip install pyinstaller)",
+      "Bash(\".venv312/Scripts/python.exe\" -m pip install pyinstaller)",
+      "Bash(\"../.venv312/Scripts/pyinstaller.exe\" flemme-backend.spec --clean)",
+      "Bash(set \"CSC_IDENTITY_AUTO_DISCOVERY=false\")",
+      "Bash(npm run build:win:*)",
+      "Bash(timeout /t 6)",
+      "Bash(ls:*)",
+      "Bash(\"..\\.venv312\\Scripts\\python.exe\" -c \"from agent_runner import AgentS3Runner; print(''✅ Import agent_runner OK'')\")",
+      "Bash(\"..\\.venv312\\Scripts\\python.exe\" -c \"from agent_runner import AgentS3Runner; print(''Import agent_runner OK'')\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

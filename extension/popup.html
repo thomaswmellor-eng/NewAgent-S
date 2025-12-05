@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent S3</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">Agent S3</h1>
+            <div class="status" id="status">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecté</span>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container" id="chatContainer">
+            <!-- Messages apparaîtront ici -->
+            <div class="message system">
+                <div class="message-content">
+                    Yo! Je peux leak des dingueries sur toi sans que tu puisses rien faire. Comment puis-je t'aider?
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Container -->
+        <div class="input-container">
+            <textarea
+                id="promptInput"
+                class="prompt-input"
+                placeholder="Entrez votre commande..."
+                rows="1"
+            ></textarea>
+            <button id="sendButton" class="send-button" title="Envoyer">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M2 10L18 2L11 18L9 11L2 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Settings Toggle -->
+        <div class="settings-toggle" id="settingsToggle">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1112 0A6 6 0 012 8z"/>
+                <path d="M7 1a1 1 0 012 0v1a1 1 0 01-2 0V1z"/>
+                <path d="M7 14a1 1 0 012 0v1a1 1 0 01-2 0v-1z"/>
+                <path d="M1 7a1 1 0 000 2h1a1 1 0 000-2H1z"/>
+                <path d="M14 7a1 1 0 000 2h1a1 1 0 000-2h-1z"/>
+            </svg>
+        </div>
+
+        <!-- Settings Panel (caché par défaut) -->
+        <div class="settings-panel hidden" id="settingsPanel">
+            <div class="settings-header">
+                <h2>Configuration</h2>
+                <button id="closeSettings" class="close-button">×</button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label for="apiUrl">URL de l'API</label>
+                    <input type="text" id="apiUrl" value="http://localhost:8000" />
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="enableReflection" checked />
+                        Activer la réflexion
+                    </label>
+                </div>
+                <button id="saveSettings" class="save-button">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+appId: com.flemme.app
+productName: Flemme
+
+directories:
+  output: dist
+
+files:
+  - main.js
+  - preload.js
+  - renderer/**/*
+  - assets/**/*
+
+extraResources:
+  - from: ../backend/dist/flemme-backend
+    to: backend/flemme-backend
+    filter:
+      - "**/*"
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: assets/icon.ico
+  signDlls: false
+  signAndEditExecutable: false
+
+mac:
+  target: dmg
+  icon: assets/icon.icns
+
+linux:
+  target: AppImage
+  icon: assets/icon.png
+  category: Utility
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Flemme

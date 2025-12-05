@@ -1,0 +1,230 @@
+{
+  "profiles": {
+    "prospection_consulting": {
+      "name": "Prospection Consulting",
+      "description": "Pour trouver et connecter avec des consultants et décideurs",
+      "search_keywords": [
+        "consultant",
+        "consulting",
+        "strategy consultant",
+        "management consultant",
+        "business consultant"
+      ],
+      "target_titles": [
+        "Partner",
+        "Principal",
+        "Senior Consultant",
+        "Manager",
+        "Director"
+      ],
+      "connection_message_template": "Bonjour {firstname}, je développe des solutions d'automatisation pour les cabinets de conseil et j'aimerais échanger sur les défis que vous rencontrez. Au plaisir de connecter!",
+      "daily_limits": {
+        "connections": 20,
+        "likes": 50,
+        "comments": 10,
+        "messages": 15
+      },
+      "engagement_strategy": "Liker les posts sur consulting, stratégie, transformation digitale. Commenter avec des insights sur l'automatisation et la productivité."
+    },
+
+    "tech_networking": {
+      "name": "Tech Networking",
+      "description": "Pour développer un réseau dans la tech (développeurs, CTOs, etc.)",
+      "search_keywords": [
+        "CTO",
+        "VP Engineering",
+        "Head of Engineering",
+        "Software Engineer",
+        "Developer",
+        "Tech Lead"
+      ],
+      "target_titles": [
+        "CTO",
+        "VP Engineering",
+        "Engineering Manager",
+        "Senior Software Engineer",
+        "Tech Lead"
+      ],
+      "connection_message_template": "Bonjour {firstname}, j'ai vu votre parcours en {domain} et j'aimerais échanger sur les tendances tech. Au plaisir de connecter!",
+      "daily_limits": {
+        "connections": 25,
+        "likes": 100,
+        "comments": 15,
+        "messages": 20
+      },
+      "engagement_strategy": "Liker les posts sur dev, AI, automation, cloud. Commenter avec des questions techniques ou partager des ressources."
+    },
+
+    "sales_outreach": {
+      "name": "Sales Outreach B2B",
+      "description": "Pour la prospection commerciale B2B",
+      "search_keywords": [
+        "CEO",
+        "Founder",
+        "Head of Operations",
+        "VP Sales",
+        "Director"
+      ],
+      "target_titles": [
+        "CEO",
+        "Founder",
+        "Co-Founder",
+        "Head of Operations",
+        "VP",
+        "Director"
+      ],
+      "connection_message_template": "Bonjour {firstname}, votre entreprise {company} m'intéresse. J'aide des entreprises comme la vôtre à automatiser leurs processus. Intéressé par un échange?",
+      "daily_limits": {
+        "connections": 15,
+        "likes": 30,
+        "comments": 5,
+        "messages": 10
+      },
+      "engagement_strategy": "Liker les posts sur business growth, automation, productivity. Commenter avec de la valeur (pas de pitch)."
+    },
+
+    "recruiter": {
+      "name": "Recruteur Tech",
+      "description": "Pour recruter des talents tech",
+      "search_keywords": [
+        "Python Developer",
+        "Full Stack Developer",
+        "Data Scientist",
+        "DevOps Engineer",
+        "Software Engineer"
+      ],
+      "target_titles": [
+        "Software Engineer",
+        "Developer",
+        "Data Scientist",
+        "DevOps",
+        "Full Stack"
+      ],
+      "connection_message_template": "Bonjour {firstname}, j'ai une opportunité chez {company} qui pourrait vous intéresser. Seriez-vous ouvert à en discuter?",
+      "daily_limits": {
+        "connections": 30,
+        "likes": 40,
+        "comments": 8,
+        "messages": 25
+      },
+      "engagement_strategy": "Liker les posts techniques. Commenter rarement mais de manière pertinente pour montrer l'expertise."
+    },
+
+    "personal_branding": {
+      "name": "Personal Branding",
+      "description": "Pour développer sa marque personnelle",
+      "search_keywords": [
+        "thought leader",
+        "expert",
+        "speaker",
+        "author"
+      ],
+      "target_titles": [],
+      "connection_message_template": "Bonjour {firstname}, j'apprécie votre contenu sur {topic}. Au plaisir d'échanger sur ces sujets!",
+      "daily_limits": {
+        "connections": 10,
+        "likes": 100,
+        "comments": 20,
+        "messages": 10
+      },
+      "engagement_strategy": "Focus sur l'engagement authentique. Commenter avec des insights uniques et des questions. Partager du contenu de valeur."
+    },
+
+    "investor_relations": {
+      "name": "Relations Investisseurs",
+      "description": "Pour connecter avec des VCs et investisseurs",
+      "search_keywords": [
+        "Venture Capital",
+        "VC",
+        "Angel Investor",
+        "Investment Manager",
+        "Partner at"
+      ],
+      "target_titles": [
+        "Partner",
+        "Investment Manager",
+        "Angel Investor",
+        "VC"
+      ],
+      "connection_message_template": "Bonjour {firstname}, je développe une solution innovante en {domain}. J'aimerais avoir votre perspective. Au plaisir d'échanger!",
+      "daily_limits": {
+        "connections": 10,
+        "likes": 20,
+        "comments": 5,
+        "messages": 8
+      },
+      "engagement_strategy": "Très sélectif. Liker et commenter uniquement sur des posts très pertinents. Montrer de la traction et des insights business."
+    }
+  },
+
+  "comment_templates": {
+    "insightful": [
+      "Super intéressant! J'ai eu une expérience similaire avec {topic}. Une approche qui a bien fonctionné pour moi est {solution}.",
+      "Point très pertinent sur {aspect}. Avez-vous essayé {alternative_approach}?",
+      "J'adore cette perspective! Ça me fait penser à {related_concept}. Comment voyez-vous l'évolution de {topic} dans les prochaines années?"
+    ],
+    "question_engagement": [
+      "Super post! Question: comment gérez-vous {specific_challenge} dans ce contexte?",
+      "Très intéressant! Avez-vous des exemples concrets de {topic} en pratique?",
+      "Merci pour ce partage! Quelle a été la plus grande surprise lors de {action}?"
+    ],
+    "value_add": [
+      "Excellent point! Pour ceux qui veulent creuser le sujet, je recommande {resource}.",
+      "Totalement d'accord. J'ajouterais que {additional_insight}.",
+      "Super analyse! Une autre dimension à considérer est {additional_perspective}."
+    ],
+    "professional": [
+      "Merci pour ce partage {firstname}. Cela résonne avec notre expérience chez {company}.",
+      "Perspective très juste. Nous avons observé les mêmes tendances dans {industry}.",
+      "Article très informatif. Les points sur {topic} sont particulièrement pertinents."
+    ]
+  },
+
+  "best_times": {
+    "description": "Meilleurs moments pour poster/engager sur LinkedIn (heure de Paris)",
+    "weekdays": {
+      "morning": "07:30-09:00",
+      "lunch": "12:00-13:00",
+      "afternoon": "17:00-18:00"
+    },
+    "best_days": ["Mardi", "Mercredi", "Jeudi"],
+    "avoid": ["Dimanche matin", "Samedi soir", "Vendredi après 18h"]
+  },
+
+  "content_categories": {
+    "high_engagement": [
+      "Success stories",
+      "Lessons learned",
+      "Industry insights",
+      "How-to guides",
+      "Polls and questions",
+      "Career tips",
+      "Technology trends"
+    ],
+    "avoid": [
+      "Pure self-promotion",
+      "Political content",
+      "Controversial topics",
+      "Overly personal",
+      "Negative criticism"
+    ]
+  },
+
+  "automation_safety": {
+    "recommendations": {
+      "session_duration": "30-60 minutes maximum",
+      "pause_between_actions": "30-120 seconds",
+      "daily_active_time": "2-4 heures réparties dans la journée",
+      "weekly_rest": "1-2 jours sans automation",
+      "randomize_actions": true,
+      "human_like_behavior": true
+    },
+    "red_flags": [
+      "Trop d'actions en peu de temps",
+      "Patterns répétitifs",
+      "Activité 24/7",
+      "Messages identiques en masse",
+      "Taux de connexion < 30%"
+    ]
+  }
+}
