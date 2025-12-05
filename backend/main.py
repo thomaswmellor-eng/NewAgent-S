@@ -14,7 +14,12 @@ from typing import Optional
 import logging
 
 # Importer Agent S3
-from agent_runner import AgentS3Runner
+try:
+    # Import relatif si exécuté comme module (Azure)
+    from .agent_runner import AgentS3Runner
+except ImportError:
+    # Import absolu si exécuté directement (développement local)
+    from agent_runner import AgentS3Runner
 
 # Configuration
 load_dotenv()
