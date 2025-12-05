@@ -5,11 +5,18 @@ Gère l'initialisation et l'exécution des tâches avec streaming
 
 import os
 import asyncio
-import pyautogui
 import io
 from typing import AsyncGenerator, Dict, Any
 from dotenv import load_dotenv
 import logging
+
+# Import pyautogui seulement si disponible (pas sur Azure)
+try:
+    import pyautogui
+    PYAUTOGUI_AVAILABLE = True
+except (ImportError, KeyError):
+    PYAUTOGUI_AVAILABLE = False
+    print("⚠️ PyAutoGUI not available - screenshot capture disabled")
 
 from gui_agents.s3.agents.agent_s import AgentS3
 from gui_agents.s3.agents.grounding import OSWorldACI
@@ -75,6 +82,14 @@ class AgentS3Runner:
 
     def capture_screenshot(self) -> bytes:
         """Capturer l'écran et retourner les bytes"""
+        if not PYAUTOGUI_AVAILABLE:
+            # Sur Azure, retourner une image vide (1x1 pixel noir)
+            from PIL import Image
+            img = Image.new('RGB', (1, 1), color='black')
+            buffered = io.BytesIO()
+            img.save(buffered, format="PNG")
+            return buffered.getvalue()
+
         screenshot = pyautogui.screenshot()
         buffered = io.BytesIO()
         screenshot.save(buffered, format="PNG")

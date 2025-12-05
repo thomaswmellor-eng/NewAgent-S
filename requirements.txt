@@ -13,7 +13,7 @@ openai==2.8.1
 tiktoken==0.12.0
 
 # Automation et screenshots
-pyautogui==0.9.54
+# pyautogui==0.9.54  # Needs DISPLAY - not available on Azure Linux
 pillow==11.3.0
 # pywin32==311  # Windows only - not needed on Linux Azure
 
